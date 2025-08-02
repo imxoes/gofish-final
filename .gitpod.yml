@@ -1,0 +1,27 @@
+tasks:
+  - name: Setup da Oficina
+    init: |
+      echo "--- INICIANDO SETUP (Isso acontece só uma vez e pode levar 10-15 minutos) ---"
+      
+      # Instala Solana
+      sh -c "$(curl -sSfL https://release.anza.xyz/stable/install)"
+      
+      # Instala Rust
+      curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+      
+      # Adiciona Solana e Rust ao PATH permanente do Gitpod
+      echo 'export PATH="/home/gitpod/.local/share/solana/install/active_release/bin:$HOME/.cargo/bin:$PATH"' >> ~/.bashrc
+      
+      # Carrega o ambiente para usar o cargo
+      source "$HOME/.cargo/env"
+      
+      # Instala dependências do sistema
+      sudo apt-get update && sudo apt-get install -y libudev-dev pkg-config
+      
+      # Instala Anchor
+      cargo install anchor-cli --locked
+      
+      echo "--- SETUP CONCLUÍDO! ---"
+    command: |
+      source ~/.bashrc
+      echo "--- OFICINA PRONTA. BEM-VINDO DE VOLTA! ---"
